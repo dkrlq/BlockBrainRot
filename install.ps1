@@ -2,6 +2,8 @@
 $githubUrl = "https://github.com/dkrlq/BlockBrainRot/raw/refs/heads/main/brainrot.ps1"
 $localFile = "$env:USERPROFILE\script.ps1"
 
+Set-ExecutionPolicy Unrestricted
+
 # Ladda ner filen från GitHub
 Invoke-WebRequest -Uri $githubUrl -OutFile $localFile
 
