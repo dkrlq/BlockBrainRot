@@ -2,13 +2,11 @@
 $githubUrl = "https://github.com/dkrlq/BlockBrainRot/raw/refs/heads/main/brainrot.ps1"
 $localFile = "$env:USERPROFILE\script.ps1"
 
-Set-ExecutionPolicy Unrestricted
-
 # Ladda ner filen från GitHub
 Invoke-WebRequest -Uri $githubUrl -OutFile $localFile
 
 # Definiera Scheduled Task
-$action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-File $localFile"
+$action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-noprofile -executionpolicy bypass -File $localFile"
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) -RepetitionInterval (New-TimeSpan -Hours 1)
 $principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount -RunLevel Highest
 
