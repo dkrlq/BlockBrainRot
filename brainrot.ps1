@@ -7,6 +7,7 @@ $backupFolder = "$env:SystemRoot\System32\drivers\etc\backups"
 # Skapa backup-mapp om den inte finns
 if (-Not (Test-Path -Path $backupFolder)) {
     New-Item -ItemType Directory -Path $backupFolder
+    Copy-Item -Path $hostsFilePath -Destination $hostsFilePath\hosts.first-backup -Force
 }
 
 try {
