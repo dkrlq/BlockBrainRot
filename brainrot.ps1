@@ -1,5 +1,5 @@
 # Definiera variabler
-$githubUrl = "https://github.com/dkrlq/BlockBrainRot/blob/main/brainrotlist.txt" # Byt ut med rätt URL
+$githubUrl = "https://raw.githubusercontent.com/dkrlq/BlockBrainRot/refs/heads/main/brainrotlist.txt" # Byt ut med rätt URL
 $tempHostsPath = "$env:TEMP\hosts_temp.txt"
 $hostsFilePath = "$env:SystemRoot\System32\drivers\etc\hosts"
 $backupFolder = "$env:SystemRoot\System32\drivers\etc\backups"
