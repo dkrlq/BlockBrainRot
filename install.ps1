@@ -1,6 +1,6 @@
 # Ange URL till filen på GitHub och spara som lokal fil
 $githubUrl = "https://github.com/dkrlq/BlockBrainRot/raw/refs/heads/main/brainrot.ps1"
-$localFile = "$env:USERPROFILE\script.ps1"
+$localFile = "$env:SYSTEMDRIVE\script.ps1"
 
 # Ladda ner filen från GitHub
 Invoke-WebRequest -Uri $githubUrl -OutFile $localFile
