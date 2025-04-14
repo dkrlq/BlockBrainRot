@@ -6,13 +6,13 @@ $backupFolder = "$env:SystemRoot\System32\drivers\etc\backups"
 
 # Skapa backup-mapp om den inte finns
 if (-Not (Test-Path -Path $backupFolder)) {
-    New-Item -ItemType Directory -Path $backupFolder
-    Copy-Item -Path $hostsFilePath -Destination $hostsFilePath\hosts.first-backup -Force
+    New-Item -ItemType Directory -Path $backupFolder | Out-Null
+    Copy-Item -Path $hostsFilePath -Destination "$backupFolder\hosts.first-backup" -Force
 }
 
 try {
     # Hämta filen från GitHub
-    Invoke-WebRequest -Uri $githubUrl -OutFile $tempHostsPath
+    Invoke-WebRequest -Uri $githubUrl -OutFile $tempHostsPath -ErrorAction Stop
 
     # Skapa säkerhetskopia med dagens datum
     $backupFile = Join-Path -Path $backupFolder -ChildPath ("hosts_" + (Get-Date -Format "yyyyMMdd") + ".bak")
@@ -32,7 +32,7 @@ try {
     $linesToAdd = $newHosts | Where-Object { $_ -notin $existingHosts }
 
     # Lägg endast till de rader som saknas
-    if ($linesToAdd) {
+    if ($linesToAdd.Count -gt 0) {
         Add-Content -Path $hostsFilePath -Value $linesToAdd
         Write-Output "Hosts-filen har uppdaterats med nya poster."
     } else {
@@ -40,11 +40,14 @@ try {
     }
 
 } catch {
-    Write-Output "Ett fel uppstod: $_"
+    Write-Output "Ett fel uppstod: $($_.Exception.Message)"
 }
 
 # Rensa temporära filer
-Remove-Item -Path $tempHostsPath -Force
+if (Test-Path $tempHostsPath) {
+    Remove-Item -Path $tempHostsPath -Force
+}
 
 # Slutmeddelande
 Write-Output "Klart!"
+Exit 0
